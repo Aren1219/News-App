@@ -49,12 +49,12 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `initial news list`() = runBlocking {
+    fun `initial news list`() {
         assertEquals(TestUtil.previewNewsDataList(), viewModel.newsList.value!!.data)
     }
 
     @Test
-    fun `load two pages from api`() = runBlocking {
+    fun `load two pages from api`() {
         viewModel.getNewsList()
         Thread.sleep(1)
         assertEquals(
@@ -72,7 +72,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `save news`() = runBlocking {
+    fun `save news`() {
         viewModel.saveNews(TestUtil.previewNewsData())
         viewModel.savedList.getOrAwaitValue()
         Thread.sleep(1)
@@ -80,7 +80,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `delete news`() = runBlocking {
+    fun `delete news`() {
         viewModel.saveNews(TestUtil.previewNewsData())
         viewModel.savedList.getOrAwaitValue()
         viewModel.deleteNews(TestUtil.previewNewsData())
