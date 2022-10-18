@@ -40,9 +40,9 @@ class MainViewModel @Inject constructor(
             if (response.isSuccessful) {
                 _newsList.postValue(
                     Resource.Success(
-                    _newsList.value?.data?.plus(response.body()!!.data) ?: response.body()!!.data)
-//                        response.body()!!.data
-//                    )
+                        _newsList.value?.data?.plus(response.body()!!.data)
+                            ?: response.body()!!.data
+                    )
                 )
                 if (loadedPage == 0) currentDateTime =
                     response.body()!!.data[0].publishedAt.take(19)
@@ -55,8 +55,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getNewsUUID(uuid: String): Data? = _newsList.value?.data?.find { it.uuid == uuid }
-        ?: savedList.value?.find { it.uuid == uuid }
+//    fun getNewsUUID(uuid: String): Data? = _newsList.value?.data?.find { it.uuid == uuid }
+//        ?: savedList.value?.find { it.uuid == uuid }
 
 
     fun saveNews(data: Data) = viewModelScope.launch(Dispatchers.IO) {

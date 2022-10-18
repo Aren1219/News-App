@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -56,7 +55,8 @@ class NewsAdapter(
                 if (itemType is ItemType.NewsItem)
                     it.findNavController().navigate(R.id.action_newsFragment_to_webViewFragment)
                 else
-                    it.findNavController().navigate(R.id.action_savedNewsFragment_to_webViewFragment)
+                    it.findNavController()
+                        .navigate(R.id.action_savedNewsFragment_to_webViewFragment)
             }
         }
     }
@@ -65,10 +65,13 @@ class NewsAdapter(
         return newsList.count()
     }
 
-    fun updateList(list: List<Data>) {
-        val index = itemCount
+    fun updateList(list: List<Data>, notifyAll: Boolean = false) {
         newsList = list
+        if (!notifyAll) {
+            val index = itemCount
+            notifyItemInserted(index)
+        } else notifyDataSetChanged()
 //        newsList.addAll(list)
-        notifyItemInserted(index)
+//        notifyDataSetChanged()
     }
 }
