@@ -35,6 +35,7 @@ The app utilises The News API(https://www.thenewsapi.com/) to fetch news from al
 - Add more Unit/UI Tests
 - UI improvements
 - More features like filtering and searching News
+- Add swipe to refresh, return to top button 
 
 ## 👨 Developed By
 *Aren Wang*
