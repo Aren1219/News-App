@@ -33,7 +33,6 @@ class MainViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
-        MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(testDispatcher)
         fakeRepository = FakeRepository()
         runBlocking {
