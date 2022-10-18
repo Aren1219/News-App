@@ -33,9 +33,6 @@ app.
 - Gradle Kotlin DSL - For writing Gradle build scripts using Kotlin.
 - Glide - Glide is a fast and efficient open source media management and image loading framework for Android.
 
-## Observations:
-- API does not support Pagination. No params to utilize for pagination with API. But as a work-around ,we can save all the data in our LocalDatabase and then implement pagination on the room to fetch records form the localDatabase. But it will take more time to do. So, I left it as an improvement.
-
 ## Improvements:
 - Multi Module
 - Add more Unit/UI Tests
