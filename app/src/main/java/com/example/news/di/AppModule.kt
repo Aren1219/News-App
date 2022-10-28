@@ -8,6 +8,7 @@ import com.example.data.db.NewsDao
 import com.example.data.db.NewsDatabase
 import com.example.data.repo.Repository
 import com.example.data.repo.RepositoryImp
+import com.example.domain.use_case.NewsUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,4 +67,9 @@ object AppModule {
     @Singleton
     fun provideRepository(api: Api, newsDao: NewsDao): Repository =
         RepositoryImp(api, newsDao)
+
+    @Provides
+    @Singleton
+    fun provideApiListUseCase(repository: Repository): NewsUseCases =
+        NewsUseCases(repository)
 }

@@ -1,4 +1,4 @@
-package com.example.news.testutil
+package com.example.domain.test_util
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

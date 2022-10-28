@@ -1,4 +1,4 @@
-package com.example.news.testutil
+package com.example.data.testutil
 
 import com.example.data.model.Data
 

@@ -70,8 +70,8 @@ class NewsAdapter(
         if (!notifyAll) {
             val index = itemCount
             notifyItemInserted(index)
-        } else notifyDataSetChanged()
-//        newsList.addAll(list)
-//        notifyDataSetChanged()
+        } else {
+            notifyDataSetChanged()
+        }
     }
 }

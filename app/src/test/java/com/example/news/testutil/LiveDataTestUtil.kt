@@ -3,7 +3,7 @@ package com.example.news.testutil
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.example.news.util.Resource
+import com.example.domain.util.Resource
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException

@@ -1,4 +1,4 @@
-package com.example.news.util
+package com.example.domain.util
 
 sealed class Resource<T> (
     val data: T? = null,

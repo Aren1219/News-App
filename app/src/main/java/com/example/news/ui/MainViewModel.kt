@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.model.Data
-import com.example.data.repo.Repository
-import com.example.news.util.Resource
+import com.example.domain.use_case.NewsUseCases
+import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,16 +14,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: Repository
+    private val newsUseCases: NewsUseCases
 ) : ViewModel() {
 
-    private val _newsList: MutableLiveData<Resource<List<Data>>> = MutableLiveData()
+    private val _newsList: MutableLiveData<Resource<List<Data>>> =
+        MutableLiveData(Resource.Success(listOf()))
     val newsList: LiveData<Resource<List<Data>>> = _newsList
 
-    val savedList: LiveData<List<Data>> = repository.getSavedNews()
+    val savedList: LiveData<List<Data>> = newsUseCases.getDatabaseNewsUseCase()
 
     private var loadedPage = 0
-
     private var currentDateTime: String? = null
 
     var webViewURL: String? = null
@@ -32,38 +32,26 @@ class MainViewModel @Inject constructor(
         getNewsList()
     }
 
-    fun getNewsList() = viewModelScope.launch(Dispatchers.IO) {
+    fun getNewsList() = viewModelScope.launch(Dispatchers.IO){
         if (_newsList.value is Resource.Loading<*>) return@launch
-        _newsList.postValue(Resource.Loading(_newsList.value?.data))
-        try {
-            val response = repository.getNews(page = loadedPage + 1, currentDateTime)
-            if (response.isSuccessful) {
-                _newsList.postValue(
-                    Resource.Success(
-                        _newsList.value?.data?.plus(response.body()!!.data)
-                            ?: response.body()!!.data
-                    )
-                )
-                if (loadedPage == 0) currentDateTime =
-                    response.body()!!.data[0].publishedAt.take(19)
-                loadedPage++
-            } else {
-                _newsList.postValue(Resource.Error(response.message()))
-            }
-        } catch (e: Exception) {
-            _newsList.postValue(Resource.Error("ERROR: could not load online news"))
-        }
+        viewModelScope.launch(Dispatchers.IO) {
+            _newsList.postValue(Resource.Loading(_newsList.value?.data))
+            _newsList.postValue(
+                _newsList.value?.data?.let {
+                    newsUseCases.getApiNewsUseCase(loadedPage + 1, currentDateTime, it)
+                }
+            )
+        }.join()
+        if (loadedPage == 0)
+            currentDateTime = _newsList.value!!.data!![0].publishedAt.take(19)
+        loadedPage++
     }
 
-//    fun getNewsUUID(uuid: String): Data? = _newsList.value?.data?.find { it.uuid == uuid }
-//        ?: savedList.value?.find { it.uuid == uuid }
-
-
     fun saveNews(data: Data) = viewModelScope.launch(Dispatchers.IO) {
-        repository.saveNews(data)
+        newsUseCases.insertNewsUseCase(data)
     }
 
     fun deleteNews(data: Data) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteNews(data)
+        newsUseCases.deleteNewsUseCase(data)
     }
 }

@@ -17,13 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class SavedNewsFragment : Fragment() {
 
     private val viewModel by activityViewModels<MainViewModel>()
-    lateinit var binding: FragmentSavedNewsBinding
+    private lateinit var binding: FragmentSavedNewsBinding
     private lateinit var adapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentSavedNewsBinding.inflate(inflater)
         binding.recyclerviewFav.layoutManager = LinearLayoutManager(context)
