@@ -3,6 +3,7 @@ package com.example.news.ui
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import app.cash.turbine.test
 import com.example.data.model.Data
 import com.example.domain.use_case.NewsUseCases
 import com.example.domain.util.Resource
@@ -11,9 +12,11 @@ import com.example.news.testutil.TestUtil.previewNewsDataList
 import com.example.news.testutil.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -26,6 +29,8 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 //TODO: need to update ViewModel tests for the use case change
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = StandardTestDispatcher()
@@ -38,41 +43,48 @@ class MainViewModelTest {
     private lateinit var viewModel: MainViewModel
 
     private val savedNewsLiveData: LiveData<List<Data>> = MutableLiveData()
+    private val flow = flow {
+        emit(Resource.Loading(listOf()))
+        emit(Resource.Success(previewNewsDataList()))
+    }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(testDispatcher)
         runBlocking {
-            viewModel = MainViewModel(useCases)
             Mockito.`when`(useCases.getApiNewsUseCase(1, null, listOf()))
-                .thenReturn(Resource.Success(previewNewsDataList()))
+                .thenReturn(flow)
             Mockito.`when`(useCases.getDatabaseNewsUseCase())
                 .thenReturn(savedNewsLiveData)
-            viewModel.newsList.getOrAwaitValue()
+            Mockito.`when`(useCases.insertNewsUseCase(previewNewsData()))
+                .then {
+                    savedNewsLiveData.value!!.plus(previewNewsData())
+                }
+            viewModel = MainViewModel(useCases)
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @After
     fun cleanUp() {
         Dispatchers.resetMain()
     }
 
     @Test
-    fun `initial news list`() {
-        assertEquals(previewNewsDataList(), viewModel.newsList.value!!.data)
+    fun `initial news list`() = runTest {
+        viewModel.newsList.test {
+//            assertEquals(listOf<Data>(), awaitItem().data)
+            assertEquals(previewNewsDataList(), awaitItem().data)
+        }
     }
-//
+
     @Test
-    fun `load two pages from api`() {
+    fun `load two pages from api`() = runTest {
+        viewModel.newsList.onCompletion { }
         viewModel.getNewsList()
-        Thread.sleep(1)
-        assertEquals(
-            previewNewsDataList() + previewNewsDataList(),
-            viewModel.newsList.getOrAwaitValue().data
-        )
+        viewModel.newsList.onCompletion {
+            assertEquals(1, this)
+        }
     }
 
     @Test

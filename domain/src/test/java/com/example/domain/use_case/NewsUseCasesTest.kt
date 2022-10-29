@@ -1,6 +1,7 @@
 package com.example.domain.use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.example.data.model.Data
 import com.example.domain.test_util.FakeRepository
 import com.example.domain.test_util.TestUtil.previewNewsData
@@ -29,16 +30,21 @@ class NewsUseCasesTest {
 
     @Test
     fun `api data use case`() = runBlocking {
-        assertEquals(
-            previewNewsDataList(),
-            newsUseCases.getApiNewsUseCase(1, null, listOf()).data
-        )
+        newsUseCases.getApiNewsUseCase(1, null, listOf()).test {
+            assertEquals(listOf<List<Data>>(), awaitItem().data)
+            assertEquals(previewNewsDataList(), awaitItem().data)
+            awaitComplete()
+        }
     }
 
     @Test
     fun `error response`() = runBlocking {
         fakeRepository.errorResponse = true
-        assertTrue(newsUseCases.getApiNewsUseCase(1, null, listOf()) is Resource.Error<*>)
+        newsUseCases.getApiNewsUseCase(1, null, listOf()).test {
+            assertTrue(awaitItem() is Resource.Loading)
+            assertTrue(awaitItem() is Resource.Error<*>)
+            awaitComplete()
+        }
     }
 
     @Test
