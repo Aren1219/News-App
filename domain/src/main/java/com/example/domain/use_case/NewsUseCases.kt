@@ -3,24 +3,29 @@ package com.example.domain.use_case
 import com.example.data.model.Data
 import com.example.data.repo.Repository
 import com.example.domain.util.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class NewsUseCases(
     private val repository: Repository
 ) {
 
-    suspend fun getApiNewsUseCase(
+    fun getApiNewsUseCase(
         page: Int,
         publishedBefore: String? = null,
         loadedList: List<Data>
-    ): Resource<List<Data>> = try {
-        val response = repository.getNews(page, publishedBefore)
-        if (response.isSuccessful) {
-            Resource.Success(loadedList.plus(response.body()!!.data))
-        } else {
-            Resource.Error(response.message())
+    ) : Flow<Resource<List<Data>>> = flow {
+        emit(Resource.Loading(loadedList))
+        try {
+            val response = repository.getNews(page, publishedBefore)
+            if (response.isSuccessful) {
+                emit(Resource.Success(loadedList.plus(response.body()!!.data)))
+            } else {
+                emit(Resource.Error(response.message()))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error("could not load online news"))
         }
-    } catch (e: Exception) {
-        Resource.Error("could not load online news")
     }
 
     fun getDatabaseNewsUseCase() = repository.getSavedNews()
