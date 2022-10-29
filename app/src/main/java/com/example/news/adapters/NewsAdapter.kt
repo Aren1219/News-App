@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -32,24 +34,8 @@ class NewsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide
-            .with(context)
-            .load(newsList[position].imageUrl)
-            .centerCrop()
-            .placeholder(R.drawable.placeholder_image)
-            .into(holder.binding.image)
         holder.binding.apply {
-            tvTitle.text = newsList[position].title
-            tvDescription.text = newsList[position].description
-            tvTime.text = newsList[position].publishedAt.formatDate()
-            tvSource.text = newsList[position].source
-            btnSave.text = itemType.btnText
-            btnSave.setOnClickListener {
-                if (btnSave.text == ItemType.NewsItem.btnText)
-                    viewModel.saveNews(newsList[position])
-                else
-                    viewModel.deleteNews(newsList[position])
-            }
+            article = newsList[position]
             itemCardView.setOnClickListener {
                 viewModel.webViewURL = newsList[position].url
                 if (itemType is ItemType.NewsItem)
@@ -57,6 +43,13 @@ class NewsAdapter(
                 else
                     it.findNavController()
                         .navigate(R.id.action_savedNewsFragment_to_webViewFragment)
+            }
+            btnSave.text = itemType.btnText
+            btnSave.setOnClickListener {
+                if (btnSave.text == ItemType.NewsItem.btnText)
+                    viewModel.saveNews(newsList[position])
+                else
+                    viewModel.deleteNews(newsList[position])
             }
         }
     }
