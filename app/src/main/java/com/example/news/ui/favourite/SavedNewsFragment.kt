@@ -28,7 +28,7 @@ class SavedNewsFragment : Fragment() {
         binding = FragmentSavedNewsBinding.inflate(inflater)
         binding.recyclerviewFav.layoutManager = LinearLayoutManager(context)
         adapter = NewsAdapter(
-            emptyList(), requireContext(), viewModel, ItemType.SavedNewsItem
+            emptyList(), viewModel, ItemType.SavedNewsItem
         )
         binding.recyclerviewFav.adapter = adapter
 

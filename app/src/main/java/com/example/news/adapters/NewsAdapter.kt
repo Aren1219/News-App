@@ -1,24 +1,18 @@
 package com.example.news.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.data.model.Data
 import com.example.news.R
 import com.example.news.databinding.CardViewHomeBinding
 import com.example.news.ui.MainViewModel
 import com.example.news.util.ItemType
-import com.example.news.util.Util.formatDate
 
 class NewsAdapter(
     private var newsList: List<Data>,
-    private val context: Context,
     private val viewModel: MainViewModel,
     private val itemType: ItemType
 ) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {

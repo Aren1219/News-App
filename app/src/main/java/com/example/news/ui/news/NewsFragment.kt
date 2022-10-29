@@ -47,7 +47,7 @@ class NewsFragment : Fragment() {
 
         binding.recyclerviewHome.addOnScrollListener(this@NewsFragment.scrollListener)
         binding.recyclerviewHome.layoutManager = LinearLayoutManager(context)
-        adapter = NewsAdapter(emptyList(), requireContext(), viewModel, ItemType.NewsItem)
+        adapter = NewsAdapter(emptyList(), viewModel, ItemType.NewsItem)
         binding.recyclerviewHome.adapter = adapter
 
         lifecycleScope.launch {
