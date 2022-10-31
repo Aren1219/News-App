@@ -8,10 +8,7 @@ import com.example.domain.use_case.NewsUseCases
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,11 +31,12 @@ class MainViewModel @Inject constructor(
         getNewsList()
     }
 
-    fun getNewsList() {
-        if (_newsList is Resource.Loading<*>) return
-        newsUseCases.getApiNewsUseCase(loadedPage + 1, currentDateTime, _newsList.value.data!!).onEach {
-            _newsList.value = it
-        }.launchIn(viewModelScope)
+    fun getNewsList() = viewModelScope.launch {
+        if (_newsList is Resource.Loading<*>) return@launch
+        newsUseCases.getApiNewsUseCase(loadedPage + 1, currentDateTime, _newsList.value.data!!)
+            .collect {
+                _newsList.emit(it)
+            }
         loadedPage++
     }
 
