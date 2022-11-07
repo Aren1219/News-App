@@ -2,7 +2,7 @@ package com.example.domain.use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
-import com.example.data.model.Data
+import com.example.domain.model.Data
 import com.example.domain.test_util.FakeRepository
 import com.example.domain.test_util.TestUtil.previewNewsData
 import com.example.domain.test_util.TestUtil.previewNewsDataList

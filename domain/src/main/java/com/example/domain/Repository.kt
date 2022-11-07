@@ -1,8 +1,8 @@
-package com.example.data.repo
+package com.example.domain
 
 import androidx.lifecycle.LiveData
-import com.example.data.model.AllNewsList
-import com.example.data.model.Data
+import com.example.domain.model.AllNewsList
+import com.example.domain.model.Data
 import retrofit2.Response
 
 interface Repository {

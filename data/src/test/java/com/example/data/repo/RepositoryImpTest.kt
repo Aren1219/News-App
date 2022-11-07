@@ -4,10 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.example.data.api.Api
 import com.example.data.db.NewsDao
-import com.example.data.model.AllNewsList
-import com.example.data.model.Meta
 import com.example.data.testutil.TestUtil.previewNewsData
 import com.example.data.testutil.TestUtil.previewNewsDataList
+import com.example.domain.model.AllNewsList
+import com.example.domain.model.Meta
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -44,7 +44,12 @@ class RepositoryImpTest {
     fun `repository api get news`() = runBlocking {
         val dummyList = previewNewsDataList()
         val dummy =
-            Response.success(AllNewsList(previewNewsDataList(), Meta(dummyList.size, 5, 1, 5)))
+            Response.success(
+                AllNewsList(
+                    previewNewsDataList(),
+                    Meta(dummyList.size, 5, 1, 5)
+                )
+            )
         Mockito.`when`(api.getAllNews(publishedBefore = null))
             .thenReturn(dummy)
         val result = repository.getNews(1, null)

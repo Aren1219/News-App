@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import app.cash.turbine.test
-import com.example.data.model.Data
+import com.example.domain.model.Data
 import com.example.domain.use_case.NewsUseCases
 import com.example.domain.util.Resource
 import com.example.news.testutil.TestUtil.previewNewsData

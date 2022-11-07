@@ -1,4 +1,4 @@
-package com.example.data.model
+package com.example.domain.model
 
 
 import androidx.room.Entity
@@ -21,8 +21,6 @@ data class Data(
     val language: String,
     @SerializedName("published_at")
     val publishedAt: String,
-//    @SerializedName("relevance_score")
-//    val relevanceScore: Any,
     @SerializedName("snippet")
     val snippet: String,
     @SerializedName("source")

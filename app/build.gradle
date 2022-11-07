@@ -3,8 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 
     //hilt
-    id "kotlin-kapt"
     id "dagger.hilt.android.plugin"
+    id "kotlin-kapt"
 }
 
 android {
@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.news"
-        minSdk 21
+        minSdk 22
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -42,6 +42,7 @@ android {
 dependencies {
     //data module
     implementation project(path: ':data')
+    implementation project(path: ':usecase')
     implementation project(path: ':domain')
 
     implementation 'androidx.core:core-ktx:1.9.0'

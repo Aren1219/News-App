@@ -1,6 +1,6 @@
 package com.example.domain.test_util
 
-import com.example.data.model.Data
+import com.example.domain.model.Data
 
 object TestUtil {
     fun previewNewsData(uuid: String = "1") = Data(

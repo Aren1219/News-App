@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.model.Data
+import com.example.domain.model.Data
 import com.example.news.R
 import com.example.news.databinding.CardViewHomeBinding
 import com.example.news.ui.MainViewModel

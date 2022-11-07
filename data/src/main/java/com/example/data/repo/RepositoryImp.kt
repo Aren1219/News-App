@@ -3,8 +3,9 @@ package com.example.data.repo
 import androidx.lifecycle.LiveData
 import com.example.data.api.Api
 import com.example.data.db.NewsDao
-import com.example.data.model.AllNewsList
-import com.example.data.model.Data
+import com.example.domain.Repository
+import com.example.domain.model.AllNewsList
+import com.example.domain.model.Data
 import retrofit2.Response
 
 class RepositoryImp(

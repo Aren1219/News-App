@@ -6,8 +6,8 @@ import com.example.data.api.Api
 import com.example.data.api.ApiReferences.BASE_URL
 import com.example.data.db.NewsDao
 import com.example.data.db.NewsDatabase
-import com.example.data.repo.Repository
 import com.example.data.repo.RepositoryImp
+import com.example.domain.Repository
 import com.example.domain.use_case.NewsUseCases
 import dagger.Module
 import dagger.Provides
