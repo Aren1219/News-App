@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun getNewsList() = viewModelScope.launch {
-        if (_newsList is Resource.Loading<*>) return@launch
+        if (_newsList.value is Resource.Loading<*>) return@launch
         newsUseCases.getApiNewsUseCase(loadedPage + 1, currentDateTime, _newsList.value.data!!)
             .collect {
                 _newsList.emit(it)

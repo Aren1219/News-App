@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+
         <variable
             name="article"
             type="com.example.domain.model.Data" />
@@ -21,11 +22,11 @@
 
             <ImageView
                 android:id="@+id/image"
+                loadFromUrl="@{article.imageUrl}"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginEnd="6dp"
                 android:layout_marginStart="6dp"
-                loadFromUrl="@{article.imageUrl}"
+                android:layout_marginEnd="6dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,8 +38,8 @@
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
                 android:paddingBottom="4dp"
-                android:textSize="20sp"
                 android:text="@{article.title}"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image"
                 app:layout_constraintTop_toTopOf="parent"
@@ -69,10 +70,10 @@
 
             <TextView
                 android:id="@+id/tvTime"
+                dateFormat="@{article.publishedAt}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="4dp"
-                dateFormat="@{article.publishedAt}"
                 app:layout_constraintStart_toEndOf="@id/image"
                 app:layout_constraintTop_toBottomOf="@+id/tvSource"
                 tools:text="14:36 03-09-2022" />
@@ -87,7 +88,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.cardview.widget.CardView>
-
 </layout>

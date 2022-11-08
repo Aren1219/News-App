@@ -9,24 +9,26 @@
         android:id="@+id/newsFragment"
         android:name="com.example.news.ui.news.NewsFragment"
         android:label="News"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_newsFragment_to_webViewFragment"
             app:destination="@id/webViewFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/savedNewsFragment"
         android:name="com.example.news.ui.favourite.SavedNewsFragment"
         android:label="Saved news"
-        tools:layout="@layout/fragment_saved_news" >
+        tools:layout="@layout/fragment_saved_news">
         <action
             android:id="@+id/action_savedNewsFragment_to_webViewFragment"
             app:destination="@id/webViewFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/webViewFragment"
         android:name="com.example.news.ui.webpage.WebViewFragment"
         android:label="News webpage"
-        tools:layout="@layout/fragment_web_view" >
-    </fragment>
+        tools:layout="@layout/fragment_web_view" />
+
 </navigation>
